@@ -1,4 +1,6 @@
-﻿@{
+﻿@model FinancasApp.Presentation.Models.DashboardViewModel
+
+@{
     Layout = "~/Views/Shared/_AdminLayout.cshtml";
 }
 
@@ -8,7 +10,32 @@
             <h4>Dashboard Principal</h4>
             <p>Seja bem vindo ao sistema de controle financeiro.</p>
 
-            <div class="row">
+            @using (Html.BeginForm())
+            {
+                <div class="row mb-2">
+                    <div class="col-md-3">
+                        <label>Data de início:</label>
+                        @Html.TextBoxFor(model => model.DataInicio, "{0:yyyy-MM-dd}",
+                    new { @class = "form-control", @type = "date" })
+                        <div class="text-danger">
+                            @Html.ValidationMessageFor(model => model.DataInicio)
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <label>Data de término:</label>
+                        @Html.TextBoxFor(model => model.DataFim, "{0:yyyy-MM-dd}",
+                    new { @class = "form-control", @type = "date" })
+                        <div class="text-danger">
+                            @Html.ValidationMessageFor(model => model.DataFim)
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="submit" class="btn btn-success mt-4" value="Pesquisar contas" />
+                    </div>
+                </div>
+            }
+
+            <div class="row mt-2">
                 <div class="col">
                     <div id="donutChart"></div>
                 </div>
@@ -26,21 +53,29 @@
     <script src="https://code.highcharts.com/highcharts.js"></script>
 
     <script>
+        var donutData = [];
+        var columnData = { categories: [], data: [] }
+    </script>
 
-        // Dados para o primeiro gráfico (donut)
-        var donutData = [{
-            name: 'Contas a Pagar',
-            y: 5000
-        }, {
-            name: 'Contas a Receber',
-            y: 3000
-        }];
+    @foreach (var item in Model.DonutChart)
+    {
+        <script>
+            donutData.push({
+                name: '@item.Name',
+                y: @item.Data
+                        })
+        </script>
+    }
 
-        // Dados para o segundo gráfico (colunas)
-        var columnData = {
-            categories: ['Alimentação', 'Saúde', 'Lazer', 'Outros'],
-            data: [1000, 1500, 800, 2000]
-        };
+    @foreach (var item in Model.ColumnChart)
+    {
+        <script>
+            columnData.categories.push('@item.Name');
+            columnData.data.push(@item.Data);
+        </script>
+    }
+
+    <script>
 
         // Configuração do primeiro gráfico (donut)
         Highcharts.chart('donutChart', {
@@ -58,7 +93,7 @@
                         format: '{point.name}: {point.percentage:.1f}%'
                     }
                 }
-            }, 
+            },
             series: [{
                 name: 'Valor',
                 data: donutData

@@ -20,7 +20,7 @@ namespace FinancasApp.Presentation.Models
     public class DadosGrafico
     {
         public string Name { get; set; }
-        public decimal Data { get; set; }
+        public string Data { get; set; }
     }
 }
 

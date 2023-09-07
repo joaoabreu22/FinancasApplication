@@ -3,6 +3,7 @@ using FinancasApp.Presentation.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Globalization;
 
 namespace FinancasApp.Presentation.Controllers
 {
@@ -37,6 +38,7 @@ namespace FinancasApp.Presentation.Controllers
                                     {
                                         Name = g.Key.ToString(),
                                         Data = g.Sum(conta => conta.Valor)
+                                            .ToString("F2", CultureInfo.InvariantCulture)
                                     }).ToList();
 
                 //total de contas por categoria
@@ -46,6 +48,7 @@ namespace FinancasApp.Presentation.Controllers
                                     {
                                         Name = g.Key.ToString(),
                                         Data = g.Sum(conta => conta.Valor)
+                                            .ToString("F2", CultureInfo.InvariantCulture)
                                     }).ToList();
             }
             catch (Exception e)
