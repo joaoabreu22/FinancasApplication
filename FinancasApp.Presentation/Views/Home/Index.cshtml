@@ -1,0 +1,92 @@
+﻿@{
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-body">
+            <h4>Dashboard Principal</h4>
+            <p>Seja bem vindo ao sistema de controle financeiro.</p>
+
+            <div class="row">
+                <div class="col">
+                    <div id="donutChart"></div>
+                </div>
+                <div class="col">
+                    <div id="columnChart"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section scripts {
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+
+    <script>
+
+        // Dados para o primeiro gráfico (donut)
+        var donutData = [{
+            name: 'Contas a Pagar',
+            y: 5000
+        }, {
+            name: 'Contas a Receber',
+            y: 3000
+        }];
+
+        // Dados para o segundo gráfico (colunas)
+        var columnData = {
+            categories: ['Alimentação', 'Saúde', 'Lazer', 'Outros'],
+            data: [1000, 1500, 800, 2000]
+        };
+
+        // Configuração do primeiro gráfico (donut)
+        Highcharts.chart('donutChart', {
+            chart: {
+                type: 'pie',
+            },
+            title: {
+                text: 'Comparativo de Contas a Pagar e Contas a Receber'
+            },
+            plotOptions: {
+                pie: {
+                    innerSize: '50%',
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.name}: {point.percentage:.1f}%'
+                    }
+                }
+            }, 
+            series: [{
+                name: 'Valor',
+                data: donutData
+            }]
+        });
+
+        // Configuração do segundo gráfico (colunas)
+        Highcharts.chart('columnChart', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Total de Contas por Categoria'
+            },
+            xAxis: {
+                categories: columnData.categories
+            },
+            yAxis: {
+                title: {
+                    text: 'Valor'
+                }
+            },
+            series: [{
+                name: 'Valor',
+                data: columnData.data
+            }]
+        });
+    </script>
+}
+
+
