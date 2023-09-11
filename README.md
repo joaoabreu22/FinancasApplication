@@ -1,6 +1,7 @@
 # FinancasApp
 
 O FinancasApp é um sistema de controle de contas a pagar e contas a receber desenvolvido em ASP.NET Core MVC com o uso do Entity Framework.
+Para acessar o projeto [Clique aqui](http://joaoabreu22-001-site1.itempurl.com/).
 
 ## Pré-requisitos
 
